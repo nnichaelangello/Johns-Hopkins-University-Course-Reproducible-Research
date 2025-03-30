@@ -1,0 +1,3 @@
+"0","avg_steps_daytype <- data_imputed %>%"
+"0","  group_by(interval, day_type) %>%"
+"0","  summarise(avg_steps = mean(steps), .groups = ""drop"")"

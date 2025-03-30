@@ -1,0 +1,3 @@
+"0","data_imputed$day_type <- ifelse(weekdays(data_imputed$date) %in% c(""Saturday"", ""Sunday""), "
+"0","                                ""weekend"", ""weekday"")"
+"0","data_imputed$day_type <- as.factor(data_imputed$day_type)"

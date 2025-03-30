@@ -1,0 +1,3 @@
+"0","steps_per_day <- data %>%"
+"0","  group_by(date) %>%"
+"0","  summarise(total_steps = sum(steps, na.rm = TRUE), .groups = ""drop"")"

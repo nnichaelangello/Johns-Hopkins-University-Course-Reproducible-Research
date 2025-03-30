@@ -1,0 +1,4 @@
+"0","ggplot(avg_steps_daytype, aes(x = interval, y = avg_steps)) +"
+"0","  geom_line(color = ""blue"") +"
+"0","  facet_wrap(~ day_type, ncol = 1) +"
+"0","  labs(title = ""Average Steps per Interval: Weekday vs Weekend"", x = ""Interval"", y = ""Average Steps"")"

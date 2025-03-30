@@ -1,0 +1,8 @@
+"0","max_interval <- avg_steps_interval$interval[which.max(avg_steps_interval$avg_steps)]"
+"0","cat(""Interval with maximum average steps:"", max_interval, ""\n"")"
+"1","Interval with maximum average steps:"
+"1"," "
+"1","835"
+"1"," "
+"1","
+"

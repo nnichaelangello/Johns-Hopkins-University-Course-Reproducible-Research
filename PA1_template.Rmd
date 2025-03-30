@@ -1,0 +1,146 @@
+---
+title: "Personal Activity Monitoring Analysis"
+author: "Michael Angello"
+date: "2025-03-30"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+install.packages("knitr", repos = "https://cran.rstudio.com/")
+install.packages("ggplot2", repos = "https://cran.rstudio.com/")
+install.packages("dplyr", repos = "https://cran.rstudio.com/")
+
+library(knitr)
+library(ggplot2)
+library(dplyr)
+
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Membaca data dari file CSV
+```{r}
+data <- read.csv("activity.csv")
+```
+
+# Melihat sekilas struktur data
+```{r}
+str(data)
+```
+
+# Mengubah kolom 'date' menjadi format tanggal
+```{r}
+data$date <- as.Date(data$date, format = "%Y-%m-%d")
+```
+
+# Memeriksa apakah ada data yang hilang
+```{r}
+sum(is.na(data$steps))
+```
+
+# Menghitung total langkah per hari
+```{r}
+steps_per_day <- data %>%
+  group_by(date) %>%
+  summarise(total_steps = sum(steps, na.rm = TRUE), .groups = "drop")
+```
+
+# Membuat histogram dari total langkah per hari
+```{r}
+ggplot(steps_per_day, aes(x = total_steps)) +
+  geom_histogram(binwidth = 1000, fill = "blue", color = "black") +
+  labs(title = "Histogram of Total Steps per Day", x = "Total Steps", y = "Frequency")
+```
+
+# Menghitung mean dan median dari total langkah per hari
+```{r}
+mean_steps <- mean(steps_per_day$total_steps, na.rm = TRUE)
+median_steps <- median(steps_per_day$total_steps, na.rm = TRUE)
+```
+
+# Menampilkan hasil
+```{r}
+cat("Mean total steps per day:", mean_steps, "\n")
+cat("Median total steps per day:", median_steps, "\n")
+```
+
+# Menghitung rata-rata langkah per interval
+```{r}
+avg_steps_interval <- data %>%
+  group_by(interval) %>%
+  summarise(avg_steps = mean(steps, na.rm = TRUE), .groups = "drop")
+```
+
+# Membuat plot time series
+```{r}
+ggplot(avg_steps_interval, aes(x = interval, y = avg_steps)) +
+  geom_line(color = "blue") +
+  labs(title = "Average Steps per 5-Minute Interval", x = "Interval", y = "Average Steps")
+```
+
+# Menemukan interval dengan rata-rata langkah maksimum
+```{r}
+max_interval <- avg_steps_interval$interval[which.max(avg_steps_interval$avg_steps)]
+cat("Interval with maximum average steps:", max_interval, "\n")
+```
+
+# Menghitung total jumlah nilai yang hilang
+```{r}
+total_na <- sum(is.na(data$steps))
+cat("Total missing values:", total_na, "\n")
+```
+
+# Strategi: Mengisi NA dengan rata-rata langkah per interval
+```{r}
+data_imputed <- data
+for(i in 1:nrow(data_imputed)) {
+  if(is.na(data_imputed$steps[i])) {
+    interval_val <- data_imputed$interval[i]
+    data_imputed$steps[i] <- avg_steps_interval$avg_steps[avg_steps_interval$interval == interval_val]
+  }
+}
+```
+
+# Menghitung ulang total langkah per hari dengan data yang sudah diisi
+```{r}
+steps_per_day_imputed <- data_imputed %>%
+  group_by(date) %>%
+  summarise(total_steps = sum(steps), .groups = "drop")
+```
+
+# Membuat histogram baru
+```{r}
+ggplot(steps_per_day_imputed, aes(x = total_steps)) +
+  geom_histogram(binwidth = 1000, fill = "green", color = "black") +
+  labs(title = "Histogram of Total Steps per Day (Imputed)", x = "Total Steps", y = "Frequency")
+```
+
+# Menghitung mean dan median baru
+```{r}
+mean_steps_imputed <- mean(steps_per_day_imputed$total_steps)
+median_steps_imputed <- median(steps_per_day_imputed$total_steps)
+cat("Mean total steps per day (imputed):", mean_steps_imputed, "\n")
+cat("Median total steps per day (imputed):", median_steps_imputed, "\n")
+```
+
+# Menambahkan kolom untuk hari kerja vs akhir pekan
+```{r}
+data_imputed$day_type <- ifelse(weekdays(data_imputed$date) %in% c("Saturday", "Sunday"), 
+                                "weekend", "weekday")
+data_imputed$day_type <- as.factor(data_imputed$day_type)
+```
+
+# Menghitung rata-rata langkah per interval berdasarkan tipe hari
+```{r}
+avg_steps_daytype <- data_imputed %>%
+  group_by(interval, day_type) %>%
+  summarise(avg_steps = mean(steps), .groups = "drop")
+```
+
+# Membuat panel plot
+```{r}
+ggplot(avg_steps_daytype, aes(x = interval, y = avg_steps)) +
+  geom_line(color = "blue") +
+  facet_wrap(~ day_type, ncol = 1) +
+  labs(title = "Average Steps per Interval: Weekday vs Weekend", x = "Interval", y = "Average Steps")
+```
+

@@ -1,0 +1,7 @@
+"0","data_imputed <- data"
+"0","for(i in 1:nrow(data_imputed)) {"
+"0","  if(is.na(data_imputed$steps[i])) {"
+"0","    interval_val <- data_imputed$interval[i]"
+"0","    data_imputed$steps[i] <- avg_steps_interval$avg_steps[avg_steps_interval$interval == interval_val]"
+"0","  }"
+"0","}"

@@ -1,0 +1,3 @@
+"0","steps_per_day_imputed <- data_imputed %>%"
+"0","  group_by(date) %>%"
+"0","  summarise(total_steps = sum(steps), .groups = ""drop"")"

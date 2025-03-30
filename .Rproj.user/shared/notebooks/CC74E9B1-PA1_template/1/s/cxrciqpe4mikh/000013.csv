@@ -1,0 +1,3 @@
+"0","ggplot(avg_steps_interval, aes(x = interval, y = avg_steps)) +"
+"0","  geom_line(color = ""blue"") +"
+"0","  labs(title = ""Average Steps per 5-Minute Interval"", x = ""Interval"", y = ""Average Steps"")"

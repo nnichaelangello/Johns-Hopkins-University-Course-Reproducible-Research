@@ -1,0 +1,8 @@
+"0","total_na <- sum(is.na(data$steps))"
+"0","cat(""Total missing values:"", total_na, ""\n"")"
+"1","Total missing values:"
+"1"," "
+"1","2304"
+"1"," "
+"1","
+"
