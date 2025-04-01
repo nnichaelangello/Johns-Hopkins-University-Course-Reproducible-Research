@@ -1,4 +1,4 @@
-# "Reproducible Research" Course Project 1 Submission
+![image](https://github.com/user-attachments/assets/1f5cf731-93f7-484a-befb-3dd1c81b3610)# "Reproducible Research" Course Project 1 Submission
 
 This is my submission for the Coursera assignment, for the Reproducible Research course. 
 
@@ -177,5 +177,6 @@ A valid submission will look something like (this is just an **example**!)
 ```r
 https://github.com/nnichaelangello/Johns-Hopkins-University-Course-Reproducible-Research/
 
-030e6d75f99e251d085c3ce05642ff4b5ea4797c
+![image](https://github.com/user-attachments/assets/552a4c5c-791f-4623-ada1-d4a853af6757)
+
 ```
